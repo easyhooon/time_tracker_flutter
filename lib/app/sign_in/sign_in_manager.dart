@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:time_tracker/app/services/auth.dart';
+import 'package:time_tracker/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 //Moved all authenticate code inside the class

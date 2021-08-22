@@ -130,6 +130,7 @@ class Auth implements AuthBase {
   Stream<User> get onAuthStateChanged => throw UnimplementedError();
 }
 
-//one benefit of this approach is that if we choose
+// abstract class 를 사용하는 이유
+// one benefit of this approach is that if we choose
 // to use different authentication services in the future
-//without making too many changes to our code base
+// without making too many changes to our code base

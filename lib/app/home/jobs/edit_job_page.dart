@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/app/home/models/job.dart';
-import 'package:time_tracker/app/services/database.dart';
+import 'package:time_tracker/services/database.dart';
 import 'package:time_tracker/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker/common_widgets/show_exception_alert_dialog.dart';
 
@@ -23,9 +23,12 @@ class EditJobPage extends StatefulWidget {
   //this is the context of the jobs page
   //because this method called from inside the jobs page
   //as a result we can get the provider of database with this context(jobs page)
-  static Future<void> show(BuildContext context, {Job job}) async {
-    final database = Provider.of<Database>(context, listen: false);
-    await Navigator.of(context).push(
+  static Future<void> show(
+    BuildContext context, {
+    Database database,
+    Job job,
+  }) async {
+    await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
         //pass the database object that actually from the jobs page into the constructor of the add job page class
         builder: (context) => EditJobPage(database: database, job: job),
@@ -102,6 +105,7 @@ class _EditJobPageState extends State<EditJobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 2.0,
         title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
         actions: <Widget>[

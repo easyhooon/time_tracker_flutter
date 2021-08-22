@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:time_tracker/app/services/auth.dart';
+import 'package:time_tracker/services/auth.dart';
 import 'package:time_tracker/app/sign_in/validators.dart';
 import 'email_sign_in_model.dart';
 

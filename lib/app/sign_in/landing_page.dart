@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/app/services/auth.dart';
+import 'package:time_tracker/app/home/home_page.dart';
 import 'package:time_tracker/app/home/jobs/jobs_page.dart';
-import 'package:time_tracker/app/services/database.dart';
 import 'package:time_tracker/app/sign_in/sign_in_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:time_tracker/services/auth.dart';
+import 'package:time_tracker/services/database.dart';
 
 //there isn't an mutable state anymore in landing_page
 //this can now become a stateless widget
@@ -27,7 +28,7 @@ class LandingPage extends StatelessWidget {
           }
           return Provider<Database>(
             create: (_) => FirestoreDatabase(uid: user.uid),
-            child: JobsPage(),
+            child: HomePage(),
           );
         }
         return Scaffold(

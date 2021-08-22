@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/app/home/job_entries/job_entries_page.dart';
 import 'package:time_tracker/app/home/jobs/list_items_builder.dart';
-import 'package:time_tracker/app/services/auth.dart';
-import 'package:time_tracker/app/services/database.dart';
+import 'package:time_tracker/services/auth.dart';
+import 'package:time_tracker/services/database.dart';
 import 'package:time_tracker/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker/common_widgets/show_exception_alert_dialog.dart';
 
@@ -13,30 +15,6 @@ import 'empty_content.dart';
 import 'job_list_tile.dart';
 
 class JobsPage extends StatelessWidget {
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      //because this class is a stateless widget, then the context is only available inside the build method
-      //so parameter(BuildContext context) add.
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
-    //this can return true, false or null(system back button)
-    final didRequestSignOut = await showAlertDialog(
-      context,
-      title: 'Logout',
-      content: 'Are you sure that you want to logout?',
-      cancelActionText: 'Cancel',
-      defaultActionText: 'Logout',
-    );
-    if (didRequestSignOut == true) {
-      _signOut(context);
-    }
-  }
 
   Future<void> _delete(BuildContext context, Job job) async {
     try {
@@ -76,24 +54,29 @@ class JobsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return CupertinoPageScaffold(); // it doesn't have floating action button
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Jobs'),
         actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Logout',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+          IconButton(
+            icon: Icon(Icons.add, color: Colors.white),
+            onPressed: () => EditJobPage.show(
+              context,
+              database: Provider.of<Database>(context, listen: false),
             ),
-            onPressed: () => _confirmSignOut(context),
-          )
+          ),
         ],
       ),
       body: _buildContents(context),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => EditJobPage.show(context),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.add),
+      //   onPressed: () => EditJobPage.show(
+      //     context,
+      //     database: Provider.of<Database>(context, listen: false),
+      //   ),
+      // ),
     );
   }
 
@@ -113,7 +96,7 @@ class JobsPage extends StatelessWidget {
             onDismissed: (direction) => _delete(context, job),
             child: JobListTile(
               job: job,
-              onTap: () => EditJobPage.show(context, job: job),
+              onTap: () => JobEntriesPage.show(context, job),
             ),
           ),
         );

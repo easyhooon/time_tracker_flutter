@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'app/services/auth.dart';
+import 'services/auth.dart';
 import 'app/sign_in/landing_page.dart';
 
 Future<void> main() async {
